@@ -14,4 +14,5 @@ public class Student {
     }
 
     public String getName() { return name; }
+    public List<Book> getBooks() { return books; }
 }
