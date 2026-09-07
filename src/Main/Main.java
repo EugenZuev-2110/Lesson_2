@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import Book.Book;
@@ -14,9 +15,26 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
+		String filePath = "src/students.txt"; 
+
+        List<Student> students = loadStudents(filePath);
+
+        students.stream()
+            .peek(Student::PrintStudentInfo)
+            .flatMap(student -> student.getBooks().stream())
+            .distinct()
+            .filter(book -> book.getYear() > 2000)
+            .sorted(Comparator.comparingInt(Book::getPages))
+            .limit(3)
+            .map(Book::getYear)
+            .findFirst()
+            .ifPresentOrElse(
+                year -> System.out.println("Найден год выпуска книги: " + year),
+                () -> System.out.println("Такая книга отсутствует")
+            );
 	}
 
-	public static List<Student> loadStudentsFromFile(String path) {
+	public static List<Student> loadStudents(String path) {
         List<Student> result = new ArrayList<>();
         try {
             List<String> lines = Files.readAllLines(Paths.get(path));
