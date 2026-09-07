@@ -6,7 +6,7 @@ import Book.Book;
 
 public class Student {
 	private String name;
-	private final List<Book> books; 
+	private List<Book> books; 
 
     public Student(String name, List<Book> books) {
         this.name = name;
